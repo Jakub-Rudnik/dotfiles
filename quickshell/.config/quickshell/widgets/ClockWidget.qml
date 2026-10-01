@@ -1,17 +1,7 @@
 import QtQuick
 import "../services"
+import "../ui"
 
-Rectangle {
-  height: 30
-  width: clockContent.implicitWidth + 30
-  radius: 5
-  color: "#000"
-  border.color: "#404040"
-
-  Text {
-    id: clockContent
+WidgetCard {
     text: Time.time
-    anchors.centerIn: parent
-    color: "white"
-  }
 }
