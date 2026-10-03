@@ -1,6 +1,8 @@
 import QtQuick
 import Quickshell
 import "widgets"
+import "ui"
+import "details"
 
 Scope {
   Variants {
@@ -36,9 +38,23 @@ Scope {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
 
-        AudioWidget { }
+        AudioWidget {
+          id: audioWidget                                                                          
+                                                                                                
+          selected: detailsPopup.visible                                                           
+          onClicked: detailsPopup.visible = !detailsPopup.visible 
+        }
         WifiWidget { }
         BatteryWidget { }
+      }
+
+      DetailsPopup {                                                                               
+       id: detailsPopup                                                                         
+       anchor.item: audioWidget                                                                 
+                                                                                                
+       AudioDetails {
+        width: parent.width
+       }                                                                                     
       }
     }
   }
