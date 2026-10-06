@@ -19,9 +19,12 @@ Scope {
       property string openDetails: ""
 
       function popupFor(name) {
-        return name === "wifi" ? wifiPopup
-          : name === "battery" ? batteryPopup
-          : audioPopup
+        return {
+          audio: audioPopup,
+          bluetooth: bluetoothPopup,
+          wifi: wifiPopup,
+          battery: batteryPopup
+        }[name] ?? audioPopup
       }
 
       function toggleDetails(name) {
@@ -72,6 +75,12 @@ Scope {
 
           selected: audioPopup.visible
           onClicked: bar.toggleDetails("audio")
+        }
+        BluetoothWidget {
+          id: bluetoothWidget
+
+          selected: bluetoothPopup.visible
+          onClicked: bar.toggleDetails("bluetooth")
         }
         WifiWidget {
           id: wifiWidget
@@ -124,6 +133,20 @@ Scope {
         BatteryDetails {
           id: batteryDetails
           width: parent.width
+        }
+      }
+
+      DetailsPopup {
+        id: bluetoothPopup
+        anchor.item: bluetoothWidget
+        visible: bar.openDetails === "bluetooth"
+        title: "Bluetooth"
+        subtitle: bluetoothDetails.summary
+
+        BluetoothDetails {
+          id: bluetoothDetails
+          width: parent.width
+          active: bluetoothPopup.visible
         }
       }
     }
