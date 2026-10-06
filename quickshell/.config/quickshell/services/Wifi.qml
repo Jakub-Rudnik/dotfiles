@@ -46,8 +46,8 @@ Singleton {
 
     function strengthIcon(strength, secured) {
         const icons = secured
-            ? ["󰤠", "󰤣", "󰤦", "󰤩"]
-            : ["󰤟", "󰤢", "󰤥", "󰤨"]
+            ? ["\udb82\udd21", "\udb82\udd24", "\udb82\udd27", "\udb82\udd2a"]
+            : ["\udb82\udd1f", "\udb82\udd22", "\udb82\udd25", "\udb82\udd28"]
         return strength <= 0.25 ? icons[0] :
             strength <= 0.50 ? icons[1] :
             strength <= 0.75 ? icons[2] : icons[3]
