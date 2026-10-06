@@ -10,11 +10,11 @@ Column {
         return node?.nickname || node?.description || node?.name || ""
     }
 
-    readonly property string summary: Audio.sink ? outputName(Audio.sink) : "Brak wyjścia audio"
+    readonly property string summary: Audio.sink ? outputName(Audio.sink) : "No audio output"
 
     DetailSection {
         width: root.width
-        title: "Głośność"
+        title: "Volume"
 
         Row {
             spacing: Theme.spacing
@@ -44,7 +44,7 @@ Column {
 
     DetailSection {
         width: root.width
-        title: "Wyjście audio"
+        title: "Audio output"
 
         Repeater {
             model: Audio.outputs
@@ -54,7 +54,7 @@ Column {
 
                 width: parent.width
                 title: root.outputName(modelData)
-                subtitle: modelData === Audio.sink ? "Aktywne" : ""
+                subtitle: modelData === Audio.sink ? "Active" : ""
                 selected: modelData === Audio.sink
 
                 onClicked: Audio.selectOutput(modelData)

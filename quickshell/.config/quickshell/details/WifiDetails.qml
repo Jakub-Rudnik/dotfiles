@@ -7,12 +7,12 @@ Column {
     id: root
     spacing: Theme.sectionSpacing
 
-    // Skanuj tylko, gdy okno jest otwarte.
+    // Scan only while the popup is open.
     property bool active: false
 
-    // Sieć czekająca na wpisanie hasła.
+    // Network waiting for a password.
     property var pendingNetwork: null
-    // Sieć, z którą ostatnio próbowaliśmy się połączyć.
+    // Network we last tried to connect to.
     property var connectingNetwork: null
     property string error: ""
 
@@ -20,10 +20,10 @@ Column {
 
     readonly property string summary:
         Wifi.primaryDevice !== null && Wifi.primaryDevice === Wifi.wiredDevice
-            ? "Połączono przez kabel"
+            ? "Connected via Ethernet"
         : Wifi.primaryDevice !== null && Wifi.activeNetwork
-            ? "Połączono z " + Wifi.activeNetwork.name
-        : "Brak połączenia"
+            ? "Connected to " + Wifi.activeNetwork.name
+        : "Not connected"
 
     onActiveChanged: {
         if (!active) {
@@ -65,11 +65,11 @@ Column {
     }
 
     function networkStatus(network) {
-        return network.connected ? "Połączono"
-            : network.stateChanging ? "Łączenie…"
-            : network.known ? "Zapisana"
-            : Wifi.isSecured(network) ? "Zabezpieczona"
-            : "Otwarta"
+        return network.connected ? "Connected"
+            : network.stateChanging ? "Connecting…"
+            : network.known ? "Saved"
+            : Wifi.isSecured(network) ? "Secured"
+            : "Open"
     }
 
     Connections {
@@ -77,10 +77,10 @@ Column {
 
         function onConnectionFailed(reason) {
             if (reason === ConnectionFailReason.NoSecrets) {
-                root.error = "Nieprawidłowe hasło"
+                root.error = "Wrong password"
                 root.pendingNetwork = root.connectingNetwork
             } else {
-                root.error = "Nie udało się połączyć: "
+                root.error = "Failed to connect: "
                     + ConnectionFailReason.toString(reason)
             }
         }
@@ -88,16 +88,16 @@ Column {
 
     DetailSection {
         width: root.width
-        title: "Połączenie"
+        title: "Connection"
 
         DetailCard {
             width: parent.width
             icon: "\udb80\ude00"
-            title: "Kabel"
-            subtitle: !Wifi.wiredDevice ? "Brak karty sieciowej"
-                : !Wifi.wiredConnected ? "Niepodłączony"
-                : Wifi.wiredDevice.linkSpeed > 0 ? "Połączono · " + Wifi.wiredDevice.linkSpeed + " Mb/s"
-                : "Połączono"
+            title: "Ethernet"
+            subtitle: !Wifi.wiredDevice ? "No adapter"
+                : !Wifi.wiredConnected ? "Unplugged"
+                : Wifi.wiredDevice.linkSpeed > 0 ? "Connected · " + Wifi.wiredDevice.linkSpeed + " Mb/s"
+                : "Connected"
             selected: Wifi.wiredDevice !== null && Wifi.primaryDevice === Wifi.wiredDevice
         }
 
@@ -105,10 +105,10 @@ Column {
             width: parent.width
             icon: Wifi.isConnected ? Wifi.strengthIcon(Wifi.strength, false) : "\udb81\uddaa"
             title: "Wi-Fi"
-            subtitle: !Wifi.wifiDevice ? "Brak karty sieciowej"
-                : !Networking.wifiEnabled ? "Wyłączone"
+            subtitle: !Wifi.wifiDevice ? "No adapter"
+                : !Networking.wifiEnabled ? "Off"
                 : Wifi.activeNetwork ? Wifi.activeNetwork.name
-                : "Rozłączono"
+                : "Disconnected"
             trailing: Wifi.isConnected ? Math.round(Wifi.strength * 100) + "%" : ""
             selected: Wifi.wifiDevice !== null && Wifi.primaryDevice === Wifi.wifiDevice
         }
@@ -116,11 +116,11 @@ Column {
 
     DetailSection {
         width: root.width
-        title: "Sieci w pobliżu"
+        title: "Nearby networks"
 
         Text {
             visible: Wifi.networks.length === 0
-            text: Wifi.wifiDevice && Networking.wifiEnabled ? "Szukam sieci…" : "Wi-Fi niedostępne"
+            text: Wifi.wifiDevice && Networking.wifiEnabled ? "Scanning…" : "Wi-Fi unavailable"
             color: Theme.muted
             font.pixelSize: Theme.subtitleSize
         }
@@ -146,7 +146,7 @@ Column {
     DetailSection {
         width: root.width
         visible: root.pendingNetwork !== null || root.error !== ""
-        title: root.pendingNetwork ? "Hasło do " + root.pendingNetwork.name : ""
+        title: root.pendingNetwork ? "Password for " + root.pendingNetwork.name : ""
 
         Row {
             visible: root.pendingNetwork !== null
@@ -184,7 +184,7 @@ Column {
 
             WidgetCard {
                 id: connectButton
-                text: "Połącz"
+                text: "Connect"
                 onClicked: root.submitPassword()
             }
         }

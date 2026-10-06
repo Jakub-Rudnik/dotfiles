@@ -1,6 +1,6 @@
 import QtQuick
 
-// Sekcja okna szczegółów: mały nagłówek i karty pod nim.
+// Details popup section: a small heading with cards below it.
 Column {
     id: root
     default property alias content: body.data

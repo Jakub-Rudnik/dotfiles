@@ -1,6 +1,6 @@
 import QtQuick
 
-// Karta w oknie szczegółów: ikona, tytuł, podtytuł i opcjonalna wartość po prawej.
+// Details popup card: icon, title, subtitle and an optional trailing value.
 Rectangle {
     id: root
     property alias icon: iconLabel.text

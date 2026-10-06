@@ -15,7 +15,7 @@ Scope {
       required property var modelData
       screen: modelData
 
-      // Nazwa otwartego okna szczegółów ("" gdy żadne nie jest otwarte).
+      // Name of the open details popup ("" when none is open).
       property string openDetails: ""
 
       function toggleDetails(name) {
@@ -32,13 +32,13 @@ Scope {
 
       implicitHeight: 40
 
-      // Klawiatura potrzebna np. do wpisania hasła Wi-Fi.
+      // Keyboard is needed e.g. to type a Wi-Fi password.
       WlrLayershell.keyboardFocus: bar.openDetails !== ""
         ? WlrKeyboardFocus.OnDemand
         : WlrKeyboardFocus.None
 
-      // Pasek jest na liście okien grabu, więc klik w inny widget od razu
-      // przełącza okno szczegółów; klik poza paskiem i oknem je zamyka.
+      // The bar is whitelisted in the grab, so clicking another widget switches
+      // popups directly; clicking outside the bar and popup closes it.
       HyprlandFocusGrab {
         active: bar.openDetails !== ""
         windows: [bar.openDetails === "wifi" ? wifiPopup : audioPopup, bar]
@@ -80,7 +80,7 @@ Scope {
         id: audioPopup
         anchor.item: audioWidget
         visible: bar.openDetails === "audio"
-        title: "Dźwięk"
+        title: "Sound"
         subtitle: audioDetails.summary
 
         AudioDetails {
@@ -93,7 +93,7 @@ Scope {
         id: wifiPopup
         anchor.item: wifiWidget
         visible: bar.openDetails === "wifi"
-        title: "Sieć"
+        title: "Network"
         subtitle: wifiDetails.summary
 
         WifiDetails {

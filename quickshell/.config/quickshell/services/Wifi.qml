@@ -11,7 +11,7 @@ Singleton {
     readonly property var wifiDevice:
         Networking.devices.values.find(d => d.type === DeviceType.Wifi) ?? null
 
-    // Preferuj podłączony interfejs, gdy jest ich kilka (np. stacja dokująca).
+    // Prefer a connected interface when there are several (e.g. a dock).
     readonly property var wiredDevice:
         Networking.devices.values.find(d => d.type === DeviceType.Wired && d.connected)
         ?? Networking.devices.values.find(d => d.type === DeviceType.Wired)
@@ -30,15 +30,15 @@ Singleton {
     readonly property real strength:
         activeNetwork ? activeNetwork.signalStrength : 0
 
-    // Wykryte sieci, od najsilniejszego sygnału.
+    // Detected networks, strongest signal first.
     readonly property var networks: wifiDevice
         ? wifiDevice.networks.values
             .filter(n => n.name !== "")
             .sort((a, b) => b.signalStrength - a.signalStrength)
         : []
 
-    // Interfejs, przez który idzie domyślna trasa. NetworkManager daje kablowi
-    // niższą metrykę (100) niż Wi-Fi (600), więc przy obu połączeniach wygrywa kabel.
+    // Interface carrying the default route. NetworkManager gives wired a lower
+    // metric (100) than Wi-Fi (600), so wired wins when both are connected.
     property string routeDevice: ""
     readonly property var primaryDevice:
         Networking.devices.values.find(d => d.name === routeDevice && d.connected)
@@ -58,7 +58,7 @@ Singleton {
             && network.security !== WifiSecurityType.Owe
     }
 
-    // Zmienia się przy każdej zmianie stanu interfejsów — wtedy odświeżamy trasę.
+    // Changes whenever any interface changes state; refresh the route then.
     readonly property string devicesState:
         Networking.devices.values.map(d => d.name + ":" + d.state).join(",")
     onDevicesStateChanged: routeRefresh.restart()

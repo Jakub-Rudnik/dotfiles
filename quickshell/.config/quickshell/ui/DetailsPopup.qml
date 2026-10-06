@@ -12,7 +12,7 @@ PopupWindow {
     visible: false
     color: "transparent"
 
-    // Pod widgetem, rozwija się w lewo.
+    // Below the widget, expanding to the left.
     anchor.edges: Edges.Bottom | Edges.Right
     anchor.gravity: Edges.Bottom | Edges.Left
     anchor.margins.bottom: Theme.spacing
