@@ -44,7 +44,12 @@ Scope {
           selected: detailsPopup.visible                                                           
           onClicked: detailsPopup.visible = !detailsPopup.visible 
         }
-        WifiWidget { }
+        WifiWidget {
+          id: wifiWidget
+
+          selected: wifiPopup.visible
+          onClicked: wifiPopup.visible = !wifiPopup.visible
+        }
         BatteryWidget { }
       }
 
@@ -55,6 +60,16 @@ Scope {
        AudioDetails {
         width: parent.width
        }                                                                                     
+      }
+
+      DetailsPopup {
+       id: wifiPopup
+       anchor.item: wifiWidget
+
+       WifiDetails {
+        width: parent.width
+        active: wifiPopup.visible
+       }
       }
     }
   }
