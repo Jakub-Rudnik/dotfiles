@@ -18,6 +18,12 @@ Scope {
       // Name of the open details popup ("" when none is open).
       property string openDetails: ""
 
+      function popupFor(name) {
+        return name === "wifi" ? wifiPopup
+          : name === "battery" ? batteryPopup
+          : audioPopup
+      }
+
       function toggleDetails(name) {
         bar.openDetails = bar.openDetails === name ? "" : name
       }
@@ -41,7 +47,7 @@ Scope {
       // popups directly; clicking outside the bar and popup closes it.
       HyprlandFocusGrab {
         active: bar.openDetails !== ""
-        windows: [bar.openDetails === "wifi" ? wifiPopup : audioPopup, bar]
+        windows: [bar.popupFor(bar.openDetails), bar]
         onCleared: bar.openDetails = ""
       }
 
@@ -73,7 +79,12 @@ Scope {
           selected: wifiPopup.visible
           onClicked: bar.toggleDetails("wifi")
         }
-        BatteryWidget { }
+        BatteryWidget {
+          id: batteryWidget
+
+          selected: batteryPopup.visible
+          onClicked: bar.toggleDetails("battery")
+        }
       }
 
       DetailsPopup {
@@ -100,6 +111,19 @@ Scope {
           id: wifiDetails
           width: parent.width
           active: wifiPopup.visible
+        }
+      }
+
+      DetailsPopup {
+        id: batteryPopup
+        anchor.item: batteryWidget
+        visible: bar.openDetails === "battery"
+        title: "Battery"
+        subtitle: batteryDetails.summary
+
+        BatteryDetails {
+          id: batteryDetails
+          width: parent.width
         }
       }
     }
