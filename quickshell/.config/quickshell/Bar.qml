@@ -23,7 +23,8 @@ Scope {
           audio: audioPopup,
           bluetooth: bluetoothPopup,
           wifi: wifiPopup,
-          battery: batteryPopup
+          battery: batteryPopup,
+          power: powerPopup
         }[name] ?? audioPopup
       }
 
@@ -94,6 +95,12 @@ Scope {
           selected: batteryPopup.visible
           onClicked: bar.toggleDetails("battery")
         }
+        PowerWidget {
+          id: powerWidget
+
+          selected: powerPopup.visible
+          onClicked: bar.toggleDetails("power")
+        }
       }
 
       DetailsPopup {
@@ -147,6 +154,21 @@ Scope {
           id: bluetoothDetails
           width: parent.width
           active: bluetoothPopup.visible
+        }
+      }
+
+      DetailsPopup {
+        id: powerPopup
+        anchor.item: powerWidget
+        visible: bar.openDetails === "power"
+        title: "Power"
+        subtitle: powerDetails.summary
+
+        PowerDetails {
+          id: powerDetails
+          width: parent.width
+          active: powerPopup.visible
+          onActionTriggered: bar.openDetails = ""
         }
       }
     }
