@@ -9,7 +9,6 @@ PopupWindow {
 
     implicitWidth: Theme.popupWidth
     implicitHeight: layout.implicitHeight + 2 * Theme.padding
-    grabFocus: true
     visible: false
     color: "transparent"
 
