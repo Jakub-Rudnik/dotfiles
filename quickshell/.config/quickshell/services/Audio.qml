@@ -11,6 +11,7 @@ Singleton {
        node => node.audio && node.isSink && !node.isStream
            && AudioAvailability.byName[node.name] !== false                                      
     )   
+    readonly property var inactiveOutputs: AudioAvailability.inactiveOutputs
     readonly property PwNode sink: Pipewire.defaultAudioSink                                     
                                                                                                     
     PwObjectTracker {                                                                            
@@ -22,6 +23,10 @@ Singleton {
 
     function selectOutput(node) {                                                                
         Pipewire.preferredDefaultAudioSink = node                                                
+    }
+
+    function selectInactiveOutput(output) {
+        AudioAvailability.activateOutput(output)
     }                                                                                            
                                                                                                 
    function changeVolume(delta) {                                                               

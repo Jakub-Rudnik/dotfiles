@@ -60,5 +60,19 @@ Column {
                 onClicked: Audio.selectOutput(modelData)
             }
         }
+
+        Repeater {
+            model: Audio.inactiveOutputs
+
+            DetailCard {
+                required property var modelData
+
+                width: parent.width
+                title: modelData.description
+                subtitle: "Switches card profile"
+
+                onClicked: Audio.selectInactiveOutput(modelData)
+            }
+        }
     }
 }
