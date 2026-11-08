@@ -5,8 +5,8 @@ TARGET   ?= $(HOME)
 PACKAGES ?= $(patsubst %/,%,$(wildcard */))
 STOW     := stow --dir=$(CURDIR) --target=$(TARGET)
 
-DEPS := stow hyprland hyprlock hyprpaper hyprpolkitagent hyprlauncher \
-        quickshell pipewire pipewire-jack wireplumber python
+DEPS := stow hyprland hyprlock hyprpaper hypridle hyprpolkitagent hyprlauncher \
+        quickshell pipewire pipewire-jack wireplumber python brightnessctl
 
 .DEFAULT_GOAL := help
 .PHONY: help install uninstall check deps reload

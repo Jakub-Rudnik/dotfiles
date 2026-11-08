@@ -23,7 +23,9 @@ Column {
 
     readonly property var actions: [
         { id: "lock", icon: "󰌾", title: "Lock", subtitle: "Lock the screen",
-            confirm: false, command: ["sh", "-c", "pgrep -x hyprlock >/dev/null || hyprlock"] },
+            confirm: false, command: ["loginctl", "lock-session"] },
+        { id: "suspend", icon: "󰒲", title: "Suspend", subtitle: "Lock and sleep",
+            confirm: false, command: ["systemctl", "suspend"] },
         { id: "logout", icon: "󰍃", title: "Log out", subtitle: "End the Hyprland session",
             confirm: true, command: ["sh", "-c", root.logoutCommand] },
         { id: "reboot", icon: "󰜉", title: "Restart", subtitle: "Reboot the computer",

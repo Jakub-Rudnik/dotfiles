@@ -72,6 +72,7 @@ local menu        = "hyprlauncher"
    hl.exec_cmd("qs -d")
    hl.exec_cmd("systemctl --user start hyprpolkitagent")
    hl.exec_cmd("hyprpaper")
+   hl.exec_cmd("hypridle")
    hl.exec_cmd("nm-applet")
 end)
 
@@ -234,6 +235,7 @@ hl.config({
     misc = {
         force_default_wallpaper = 1,    -- Set to 0 or 1 to disable the anime mascot wallpapers
         disable_hyprland_logo   = true, -- If true disables the random hyprland logo / anime girl background. :(
+        allow_session_lock_restore = true, -- lets lock.sh restart hyprlock after a crash
     },
 })
 
@@ -288,7 +290,7 @@ hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 -- Lock the session without closing applications (SUPER + M logs out).
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pgrep -x hyprlock >/dev/null || hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
