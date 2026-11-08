@@ -7,6 +7,18 @@ Hyprland + Qucikshell
 > [!Note]
 > This is in constant development so be careful
 
+## Install
+
+Every top-level directory is a [GNU Stow](https://www.gnu.org/software/stow/)
+package that mirrors `$HOME`. Run `make` to list the commands:
+
+```sh
+make deps      # install required packages with pacman
+make install   # link everything into $HOME (rerun after adding new files)
+make check     # dry run, shows conflicts
+make reload    # reload Hyprland and restart hyprpaper
+```
+
 ## Hyprlock (Arch Linux)
 
 ```sh

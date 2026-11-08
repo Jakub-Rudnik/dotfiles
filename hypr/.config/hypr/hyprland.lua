@@ -38,10 +38,16 @@ hl.monitor({
 })
 
 hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = "auto",
+    output   = "DP-6",
+    mode     = "1920x1200",
+    position = "-1920x0",
+    scale    = "1",
+})
+hl.monitor({
+    output   = "DP-7",
+    mode     = "1920x1200",
+    position = "-1920x0",
+    scale    = "1",
 })
 
 ---------------------
@@ -65,6 +71,8 @@ local menu        = "hyprlauncher"
  hl.on("hyprland.start", function () 
    hl.exec_cmd("qs -d")
    hl.exec_cmd("systemctl --user start hyprpolkitagent")
+   hl.exec_cmd("hyprpaper")
+   hl.exec_cmd("nm-applet")
 end)
 
 
@@ -224,8 +232,8 @@ hl.config({
 
 hl.config({
     misc = {
-        force_default_wallpaper = -1,    -- Set to 0 or 1 to disable the anime mascot wallpapers
-        disable_hyprland_logo   = false, -- If true disables the random hyprland logo / anime girl background. :(
+        force_default_wallpaper = 1,    -- Set to 0 or 1 to disable the anime mascot wallpapers
+        disable_hyprland_logo   = true, -- If true disables the random hyprland logo / anime girl background. :(
     },
 })
 
@@ -250,6 +258,9 @@ hl.config({
             natural_scroll = true,
         },
     },
+    misc = {
+        middle_click_paste = false,
+    }
 })
 
 hl.gesture({
