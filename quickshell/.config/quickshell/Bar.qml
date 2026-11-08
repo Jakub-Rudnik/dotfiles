@@ -15,6 +15,7 @@ Scope {
       screen: modelData
 
       readonly property bool controlCenterOpen: ControlCenterState.screen === modelData.name
+      readonly property bool calendarOpen: ControlCenterState.calendarScreen === modelData.name
 
       color: "transparent"
 
@@ -32,10 +33,10 @@ Scope {
         ? WlrKeyboardFocus.OnDemand
         : WlrKeyboardFocus.None
 
-      // Clicking outside the bar and the Control Center closes it.
+      // Clicking outside the bar and the open popup closes it.
       HyprlandFocusGrab {
-        active: bar.controlCenterOpen
-        windows: [controlCenter, bar]
+        active: bar.controlCenterOpen || bar.calendarOpen
+        windows: [controlCenter, calendar, bar]
         onCleared: ControlCenterState.close()
       }
 
@@ -64,11 +65,15 @@ Scope {
       }
 
       BarGroup {
+        id: clockGroup
+        highlighted: bar.calendarOpen
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: Settings.islands ? Theme.barMargin : 0
 
-        ClockWidget { }
+        ClockWidget {
+          onClicked: ControlCenterState.toggleCalendar(bar.modelData.name)
+        }
       }
 
       // Status island: every icon opens the Control Center.
@@ -92,6 +97,12 @@ Scope {
         BatteryWidget {
           onClicked: ControlCenterState.toggle(bar.modelData.name)
         }
+      }
+
+      CalendarPopup {
+        id: calendar
+        anchor.item: clockGroup
+        visible: bar.calendarOpen
       }
 
       ControlCenter {

@@ -11,6 +11,7 @@ Singleton {
     readonly property color foreground: "#ffffff"
     readonly property color outline: "#29ffffff"
     readonly property color muted: "#a6ffffff"
+    readonly property color faint: "#59ffffff"            // days outside the month
     readonly property color mutedSelected: "#ccffffff"
     readonly property color chip: "#1affffff"             // tiles, cards
     readonly property color chipHover: "#26ffffff"
