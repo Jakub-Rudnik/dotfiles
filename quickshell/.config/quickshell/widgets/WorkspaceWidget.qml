@@ -42,9 +42,10 @@ Row {
 
             implicitWidth: content.implicitWidth + 2 * Theme.cardPadding
             implicitHeight: Theme.widgetHeight
-            color: selected ? Theme.foreground : Theme.background
-            border.color: Theme.outline
+            color: selected ? Theme.selected : hover.containsMouse ? Theme.chip : "transparent"
             radius: Theme.radius
+
+            Behavior on color { ColorAnimation { duration: 120 } }
 
             Row {
                 id: content
@@ -55,7 +56,7 @@ Row {
                     anchors.verticalCenter: parent.verticalCenter
                     text: tile.modelData.id
                     font.bold: true
-                    color: tile.selected ? Theme.background : Theme.foreground
+                    color: Theme.foreground
                 }
 
                 Repeater {
@@ -79,7 +80,7 @@ Row {
                             anchors.fill: parent
                             visible: app.icon === ""
                             color: "transparent"
-                            border.color: tile.selected ? Theme.background : Theme.foreground
+                            border.color: Theme.foreground
                             radius: 3
 
                             Text {
@@ -87,7 +88,7 @@ Row {
                                 text: app.modelData.charAt(0).toUpperCase()
                                 font.pixelSize: 10
                                 font.bold: true
-                                color: tile.selected ? Theme.background : Theme.foreground
+                                color: Theme.foreground
                             }
                         }
                     }
@@ -103,7 +104,9 @@ Row {
             }
 
             MouseArea {
+                id: hover
                 anchors.fill: parent
+                hoverEnabled: true
                 onClicked: tile.modelData.activate()
             }
         }

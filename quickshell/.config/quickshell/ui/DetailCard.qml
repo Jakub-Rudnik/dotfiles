@@ -8,15 +8,14 @@ Rectangle {
     property alias subtitle: subtitleLabel.text
     property alias trailing: trailingLabel.text
     property bool selected: false
-    readonly property color contentColor: selected ? Theme.background : Theme.foreground
+    readonly property color contentColor: Theme.foreground
     readonly property color mutedColor: selected ? Theme.mutedSelected : Theme.muted
     signal clicked()
 
     implicitHeight: Math.max(Theme.widgetHeight, texts.implicitHeight + 2 * Theme.cardPadding)
 
-    color: root.selected ? Theme.foreground : Theme.background
-    border.color: Theme.outline
-    radius: Theme.radius
+    color: root.selected ? Theme.selected : Theme.chip
+    radius: Theme.radius + 2
 
     Text {
         id: iconLabel

@@ -19,9 +19,9 @@ PopupWindow {
 
     Rectangle {
         anchors.fill: parent
-        color: Theme.background
+        color: Theme.popupBackground
         border.color: Theme.outline
-        radius: Theme.radius
+        radius: Theme.popupRadius
 
         Column {
             id: layout

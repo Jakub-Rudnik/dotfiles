@@ -118,10 +118,10 @@ hl.config({
 
         border_size = 1,
 
-        -- Match the Quickshell theme (ui/Theme.qml): white focus, #404040 outline.
+        -- Glass look (matches quickshell ui/Theme.qml): soft white hairlines.
         col = {
-            active_border   = "rgba(ffffffff)",
-            inactive_border = "rgba(404040ff)",
+            active_border   = "rgba(ffffff66)",
+            inactive_border = "rgba(ffffff1a)",
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -134,7 +134,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 5, -- Theme.radius
+        rounding       = 12,
         rounding_power = 2,
 
         -- Change transparency of focused and unfocused windows
@@ -143,16 +143,21 @@ hl.config({
 
         shadow = {
             enabled      = true,
-            range        = 4,
+            range        = 20,
             render_power = 3,
-            color        = 0xee1a1a1a,
+            color        = 0x55000000,
         },
 
+        -- Frosted glass for the bar, popups and translucent windows.
         blur = {
             enabled   = true,
-            size      = 3,
-            passes    = 1,
-            vibrancy  = 0.1696,
+            size      = 8,
+            passes    = 3,
+            noise     = 0.02,
+            contrast  = 0.9,
+            brightness = 0.85,
+            vibrancy  = 0.25,
+            popups    = true,
         },
     },
 
@@ -298,6 +303,8 @@ hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
+-- Switch the bar between floating islands and a full-width strip.
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("qs ipc call bar toggleStyle"))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -391,6 +398,16 @@ hl.window_rule({
 --     no_anim = true,
 -- })
 -- overlayLayerRule:set_enabled(false)
+
+-- Blur behind the Quickshell bar and its popups. ignore_alpha keeps the gaps
+-- between islands (fully transparent pixels) unblurred.
+hl.layer_rule({
+    name  = "quickshell-glass",
+    match = { namespace = "^quickshell$" },
+    blur        = true,
+    blur_popups = true,
+    ignore_alpha = 0.05,
+})
 
 -- Hyprland-run windowrule
 hl.window_rule({

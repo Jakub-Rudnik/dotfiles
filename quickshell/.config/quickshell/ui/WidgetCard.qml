@@ -1,33 +1,39 @@
 import QtQuick
 
+// Bar chip: transparent until hovered or selected. Set flat: false for a
+// filled button (e.g. inside popups).
 Rectangle {
     id: root
     property alias icon: iconLabel.text
     property alias text: valueLabel.text
-    property bool selected: false                                              
-    readonly property color contentColor: selected ? Theme.background : Theme.foreground                         
-    signal clicked() 
+    property bool selected: false
+    property bool flat: true
+    readonly property color contentColor: Theme.foreground
+    signal clicked()
 
-    implicitWidth: content.implicitWidth + 2 * Theme.padding    
+    implicitWidth: content.implicitWidth + 2 * Theme.cardPadding
     implicitHeight: Theme.widgetHeight
 
-    color: root.selected ? Theme.foreground : Theme.background
-    border.color: Theme.outline
+    color: root.selected ? Theme.selected
+        : mouse.containsMouse || !root.flat ? Theme.chip
+        : "transparent"
     radius: Theme.radius
+
+    Behavior on color { ColorAnimation { duration: 120 } }
 
     Row {
         id: content
         anchors.centerIn: parent
-        spacing: Theme.spacing
+        spacing: Theme.spacing + 1
 
-        Text {                             
+        Text {
             id: iconLabel
             visible: text != ""
             color: root.contentColor
             font.family: Theme.iconFont
             font.pixelSize: Theme.iconSize
             anchors.verticalCenter: content.verticalCenter
-        }         
+        }
 
         Text {
             id: valueLabel
@@ -36,8 +42,10 @@ Rectangle {
         }
     }
 
-    MouseArea {                                                                
-        anchors.fill: parent                                                   
-        onClicked: root.clicked()                                              
+    MouseArea {
+        id: mouse
+        anchors.fill: parent
+        hoverEnabled: true
+        onClicked: root.clicked()
     }
 }

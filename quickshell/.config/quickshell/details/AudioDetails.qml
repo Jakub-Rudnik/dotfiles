@@ -21,6 +21,7 @@ Column {
 
             WidgetCard {
                 text: "−"
+                flat: false
                 onClicked: Audio.changeVolume(-0.05)
             }
 
@@ -37,6 +38,7 @@ Column {
 
             WidgetCard {
                 text: "+"
+                flat: false
                 onClicked: Audio.changeVolume(0.05)
             }
         }

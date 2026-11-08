@@ -161,7 +161,7 @@ Column {
             Rectangle {
                 width: root.width - connectButton.width - Theme.spacing
                 height: Theme.widgetHeight
-                color: Theme.background
+                color: Theme.chip
                 border.color: passwordInput.activeFocus ? Theme.foreground : Theme.outline
                 radius: Theme.radius
 

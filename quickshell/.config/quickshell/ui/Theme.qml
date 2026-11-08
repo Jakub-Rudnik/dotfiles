@@ -3,17 +3,25 @@ pragma Singleton
 import QtQuick
 import Quickshell
 
+// Frosted-glass palette. Colors are #AARRGGBB; the blur itself comes from the
+// Hyprland layer rule for the "quickshell" namespace (hyprland.lua).
 Singleton {
-    readonly property color background: "#000000"
+    readonly property color background: "#731c1c20"       // bar / islands
+    readonly property color popupBackground: "#a61c1c20"  // details popups
     readonly property color foreground: "#ffffff"
-    readonly property color outline: "#404040"
-    readonly property color muted: "#9a9a9a"
-    readonly property color mutedSelected: "#505050"
+    readonly property color outline: "#26ffffff"
+    readonly property color muted: "#99ffffff"
+    readonly property color mutedSelected: "#b3ffffff"
+    readonly property color chip: "#1affffff"             // cards, hover
+    readonly property color selected: "#40ffffff"         // active chip
 
-    readonly property int widgetHeight: 30
-    readonly property int radius: 5
-    readonly property int padding: 15
-    readonly property int spacing: 5
+    readonly property int barHeight: 34
+    readonly property int barMargin: 6                    // islands gap to screen edge
+    readonly property int widgetHeight: 26
+    readonly property int radius: 8
+    readonly property int popupRadius: 14
+    readonly property int padding: 12
+    readonly property int spacing: 4
 
     readonly property int popupWidth: 340
     readonly property int sectionSpacing: 18

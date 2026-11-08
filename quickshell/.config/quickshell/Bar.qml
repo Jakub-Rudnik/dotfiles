@@ -40,7 +40,8 @@ Scope {
         right: true
       }
 
-      implicitHeight: 40
+      // Islands float Theme.barMargin below the screen edge.
+      implicitHeight: Theme.barHeight + (Settings.islands ? Theme.barMargin : 0)
 
       // Keyboard is needed e.g. to type a Wi-Fi password.
       WlrLayershell.keyboardFocus: bar.openDetails !== ""
@@ -55,21 +56,43 @@ Scope {
         onCleared: bar.openDetails = ""
       }
 
-      WorkspaceWidget {
+      // Full-width style: one glass strip with a hairline at the bottom.
+      Rectangle {
+        visible: !Settings.islands
+        anchors.fill: parent
+        color: Theme.background
+
+        Rectangle {
+          anchors.left: parent.left
+          anchors.right: parent.right
+          anchors.bottom: parent.bottom
+          height: 1
+          color: Theme.outline
+        }
+      }
+
+      BarGroup {
         anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: Settings.islands ? Theme.barMargin : 0
+        anchors.top: parent.top
+        anchors.topMargin: Settings.islands ? Theme.barMargin : 0
+
+        WorkspaceWidget { }
       }
 
-      ClockWidget {
-        anchors.centerIn: parent
+      BarGroup {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: Settings.islands ? Theme.barMargin : 0
+
+        ClockWidget { }
       }
 
-      Row {
-        spacing: 5
-        anchors.rightMargin: 10
-        anchors.verticalCenter: parent.verticalCenter
+      BarGroup {
         anchors.right: parent.right
+        anchors.rightMargin: Settings.islands ? Theme.barMargin : 0
+        anchors.top: parent.top
+        anchors.topMargin: Settings.islands ? Theme.barMargin : 0
 
         AudioWidget {
           id: audioWidget
