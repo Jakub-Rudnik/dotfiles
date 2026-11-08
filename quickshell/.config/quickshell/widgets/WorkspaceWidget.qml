@@ -43,7 +43,7 @@ Row {
             implicitWidth: content.implicitWidth + 2 * Theme.cardPadding
             implicitHeight: Theme.widgetHeight
             color: selected ? Theme.selected : hover.containsMouse ? Theme.chip : "transparent"
-            radius: Theme.radius
+            radius: height / 2
 
             Behavior on color { ColorAnimation { duration: 120 } }
 

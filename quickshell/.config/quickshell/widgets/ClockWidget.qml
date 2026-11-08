@@ -4,4 +4,5 @@ import "../ui"
 
 WidgetCard {
     text: Time.time
+    bold: true
 }

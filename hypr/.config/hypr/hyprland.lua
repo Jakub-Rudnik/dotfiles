@@ -150,14 +150,14 @@ hl.config({
 
         -- Frosted glass for the bar, popups and translucent windows.
         blur = {
-            enabled   = true,
-            size      = 8,
-            passes    = 3,
-            noise     = 0.02,
-            contrast  = 0.9,
-            brightness = 0.85,
-            vibrancy  = 0.25,
-            popups    = true,
+            enabled    = true,
+            size       = 6,
+            passes     = 3,
+            noise      = 0.0,
+            contrast   = 1.0,
+            brightness = 1.0,
+            vibrancy   = 0.3,
+            popups     = true,
         },
     },
 
@@ -305,6 +305,8 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 -- Switch the bar between floating islands and a full-width strip.
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("qs ipc call bar toggleStyle"))
+-- Control Center on the focused monitor.
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("qs ipc call controlCenter toggle"))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))

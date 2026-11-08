@@ -12,36 +12,14 @@ Column {
 
     readonly property string summary: Audio.sink ? outputName(Audio.sink) : "No audio output"
 
-    DetailSection {
+    CCSlider {
         width: root.width
         title: "Volume"
+        detail: Audio.sink ? Math.round(Audio.volume * 100) + "%" : "—"
+        icon: Audio.muted ? "\ueee8" : "\uf028"
+        value: Audio.muted ? 0 : Audio.volume
 
-        Row {
-            spacing: Theme.spacing
-
-            WidgetCard {
-                text: "−"
-                flat: false
-                onClicked: Audio.changeVolume(-0.05)
-            }
-
-            Text {
-                width: 50
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: Audio.sink
-                    ? Math.round(Audio.volume * 100) + "%"
-                    : "—"
-                color: Theme.foreground
-                font.pixelSize: Theme.titleSize
-            }
-
-            WidgetCard {
-                text: "+"
-                flat: false
-                onClicked: Audio.changeVolume(0.05)
-            }
-        }
+        onMoved: value => Audio.setVolume(value)
     }
 
     DetailSection {

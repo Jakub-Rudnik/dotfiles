@@ -8,6 +8,7 @@ Rectangle {
     property alias text: valueLabel.text
     property bool selected: false
     property bool flat: true
+    property bool bold: false
     readonly property color contentColor: Theme.foreground
     signal clicked()
 
@@ -17,7 +18,7 @@ Rectangle {
     color: root.selected ? Theme.selected
         : mouse.containsMouse || !root.flat ? Theme.chip
         : "transparent"
-    radius: Theme.radius
+    radius: height / 2
 
     Behavior on color { ColorAnimation { duration: 120 } }
 
@@ -39,6 +40,7 @@ Rectangle {
             id: valueLabel
             visible: text != ""
             color: root.contentColor
+            font.bold: root.bold
         }
     }
 

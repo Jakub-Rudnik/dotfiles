@@ -4,7 +4,6 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import "widgets"
 import "ui"
-import "details"
 
 Scope {
   Variants {
@@ -15,22 +14,7 @@ Scope {
       required property var modelData
       screen: modelData
 
-      // Name of the open details popup ("" when none is open).
-      property string openDetails: ""
-
-      function popupFor(name) {
-        return {
-          audio: audioPopup,
-          bluetooth: bluetoothPopup,
-          wifi: wifiPopup,
-          battery: batteryPopup,
-          power: powerPopup
-        }[name] ?? audioPopup
-      }
-
-      function toggleDetails(name) {
-        bar.openDetails = bar.openDetails === name ? "" : name
-      }
+      readonly property bool controlCenterOpen: ControlCenterState.screen === modelData.name
 
       color: "transparent"
 
@@ -44,16 +28,15 @@ Scope {
       implicitHeight: Theme.barHeight + (Settings.islands ? Theme.barMargin : 0)
 
       // Keyboard is needed e.g. to type a Wi-Fi password.
-      WlrLayershell.keyboardFocus: bar.openDetails !== ""
+      WlrLayershell.keyboardFocus: bar.controlCenterOpen
         ? WlrKeyboardFocus.OnDemand
         : WlrKeyboardFocus.None
 
-      // The bar is whitelisted in the grab, so clicking another widget switches
-      // popups directly; clicking outside the bar and popup closes it.
+      // Clicking outside the bar and the Control Center closes it.
       HyprlandFocusGrab {
-        active: bar.openDetails !== ""
-        windows: [bar.popupFor(bar.openDetails), bar]
-        onCleared: bar.openDetails = ""
+        active: bar.controlCenterOpen
+        windows: [controlCenter, bar]
+        onCleared: ControlCenterState.close()
       }
 
       // Full-width style: one glass strip with a hairline at the bottom.
@@ -88,111 +71,34 @@ Scope {
         ClockWidget { }
       }
 
+      // Status island: every icon opens the Control Center.
       BarGroup {
+        id: statusGroup
+        highlighted: bar.controlCenterOpen
         anchors.right: parent.right
         anchors.rightMargin: Settings.islands ? Theme.barMargin : 0
         anchors.top: parent.top
         anchors.topMargin: Settings.islands ? Theme.barMargin : 0
 
         AudioWidget {
-          id: audioWidget
-
-          selected: audioPopup.visible
-          onClicked: bar.toggleDetails("audio")
+          onClicked: ControlCenterState.toggle(bar.modelData.name)
         }
         BluetoothWidget {
-          id: bluetoothWidget
-
-          selected: bluetoothPopup.visible
-          onClicked: bar.toggleDetails("bluetooth")
+          onClicked: ControlCenterState.toggle(bar.modelData.name)
         }
         WifiWidget {
-          id: wifiWidget
-
-          selected: wifiPopup.visible
-          onClicked: bar.toggleDetails("wifi")
+          onClicked: ControlCenterState.toggle(bar.modelData.name)
         }
         BatteryWidget {
-          id: batteryWidget
-
-          selected: batteryPopup.visible
-          onClicked: bar.toggleDetails("battery")
-        }
-        PowerWidget {
-          id: powerWidget
-
-          selected: powerPopup.visible
-          onClicked: bar.toggleDetails("power")
+          onClicked: ControlCenterState.toggle(bar.modelData.name)
         }
       }
 
-      DetailsPopup {
-        id: audioPopup
-        anchor.item: audioWidget
-        visible: bar.openDetails === "audio"
-        title: "Sound"
-        subtitle: audioDetails.summary
-
-        AudioDetails {
-          id: audioDetails
-          width: parent.width
-        }
-      }
-
-      DetailsPopup {
-        id: wifiPopup
-        anchor.item: wifiWidget
-        visible: bar.openDetails === "wifi"
-        title: "Network"
-        subtitle: wifiDetails.summary
-
-        WifiDetails {
-          id: wifiDetails
-          width: parent.width
-          active: wifiPopup.visible
-        }
-      }
-
-      DetailsPopup {
-        id: batteryPopup
-        anchor.item: batteryWidget
-        visible: bar.openDetails === "battery"
-        title: "Battery"
-        subtitle: batteryDetails.summary
-
-        BatteryDetails {
-          id: batteryDetails
-          width: parent.width
-        }
-      }
-
-      DetailsPopup {
-        id: bluetoothPopup
-        anchor.item: bluetoothWidget
-        visible: bar.openDetails === "bluetooth"
-        title: "Bluetooth"
-        subtitle: bluetoothDetails.summary
-
-        BluetoothDetails {
-          id: bluetoothDetails
-          width: parent.width
-          active: bluetoothPopup.visible
-        }
-      }
-
-      DetailsPopup {
-        id: powerPopup
-        anchor.item: powerWidget
-        visible: bar.openDetails === "power"
-        title: "Power"
-        subtitle: powerDetails.summary
-
-        PowerDetails {
-          id: powerDetails
-          width: parent.width
-          active: powerPopup.visible
-          onActionTriggered: bar.openDetails = ""
-        }
+      ControlCenter {
+        id: controlCenter
+        anchor.item: statusGroup
+        visible: bar.controlCenterOpen
+        onCloseRequested: ControlCenterState.close()
       }
     }
   }

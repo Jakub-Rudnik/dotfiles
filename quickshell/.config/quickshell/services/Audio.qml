@@ -38,4 +38,16 @@ Singleton {
            Math.min(1, root.sink.audio.volume + delta)                                          
        )                                                                                        
    }   
+
+    function setVolume(value) {
+        if (!root.sink?.ready || !root.sink.audio)
+            return
+        root.sink.audio.muted = false
+        root.sink.audio.volume = Math.max(0, Math.min(1, value))
+    }
+
+    function toggleMute() {
+        if (root.sink?.ready && root.sink.audio)
+            root.sink.audio.muted = !root.sink.audio.muted
+    }
 }
