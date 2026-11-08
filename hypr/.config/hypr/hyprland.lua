@@ -118,9 +118,10 @@ hl.config({
 
         border_size = 1,
 
+        -- Match the Quickshell theme (ui/Theme.qml): white focus, #404040 outline.
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            active_border   = "rgba(ffffffff)",
+            inactive_border = "rgba(404040ff)",
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -133,7 +134,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 10,
+        rounding       = 5, -- Theme.radius
         rounding_power = 2,
 
         -- Change transparency of focused and unfocused windows
