@@ -6,11 +6,12 @@ Rectangle {
     property string icon: ""
     property bool highlighted: false
     property int size: 34
+    property real cornerRadius: size / 2
     signal clicked()
 
     implicitWidth: size
     implicitHeight: size
-    radius: size / 2
+    radius: cornerRadius
     color: root.highlighted ? Theme.accent
         : mouse.containsMouse ? Theme.chipHover
         : Theme.chip

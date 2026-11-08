@@ -305,40 +305,38 @@ PopupWindow {
                 }
             }
 
-            // Session actions; confirm ones need a second click.
-            Item {
+            // Session actions as tiles across the full width; confirm ones
+            // need a second click.
+            Row {
+                id: sessionRow
                 visible: root.page === ""
                 width: parent.width
-                height: sessionRow.height + sessionLabel.height + 6
+                spacing: 8
 
-                Row {
-                    id: sessionRow
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 14
+                Repeater {
+                    model: root.actions
 
-                    Repeater {
-                        model: root.actions
-
-                        CCButton {
-                            required property var modelData
-                            icon: modelData.icon
-                            highlighted: root.pendingAction === modelData.id
-                            onClicked: root.run(modelData)
-                        }
+                    CCButton {
+                        required property var modelData
+                        width: (sessionRow.width - 4 * sessionRow.spacing) / 5
+                        height: 44
+                        cornerRadius: Theme.tileRadius
+                        icon: modelData.icon
+                        highlighted: root.pendingAction === modelData.id
+                        onClicked: root.run(modelData)
                     }
                 }
+            }
 
-                Text {
-                    id: sessionLabel
-                    anchors.top: sessionRow.bottom
-                    anchors.topMargin: 6
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: root.pendingAction !== ""
-                        ? "Click again to " + root.actions.find(a => a.id === root.pendingAction).title.toLowerCase()
-                        : ""
-                    color: Theme.muted
-                    font.pixelSize: Theme.subtitleSize
-                }
+            Text {
+                visible: root.page === "" && root.pendingAction !== ""
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                text: root.pendingAction !== ""
+                    ? "Click again to " + root.actions.find(a => a.id === root.pendingAction).title.toLowerCase()
+                    : ""
+                color: Theme.muted
+                font.pixelSize: Theme.subtitleSize
             }
 
             // ---------- Sub-pages ----------
